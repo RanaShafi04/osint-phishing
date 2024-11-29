@@ -1,0 +1,5 @@
+text,label
+"Dear customer, your account has been compromised. Click here to reset your password.",phishing
+"Meeting at 3 PM today. Please review the agenda attached.",legitimate
+"Your PayPal account has unusual activity. Verify your information now.",phishing
+"Hi John, please find the project update in the link below.",legitimate

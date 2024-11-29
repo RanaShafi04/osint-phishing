@@ -1,0 +1,22 @@
+"OSINT investigation for phishing attack dataset in machine
+learning applications"
+
+1- give me a phishing content
+2- I can extract URLs & email
+3- I can trace DNS lookup, WHOIS look up, do some
+ passive footprinting to get to technologies & 
+ OS of the web services. 
+4- collect this info and extend the dataset.
+
+Please help me thinking what kind of prediction
+ or other ML applications we can use if we have the
+  following data from querying phishing websites:
+- web-domain and sub-domain
+- open ports
+- registrar and registries
+- profiles of phishing site owners, possibly phone number,
+ email address, name (maybe it's a disguised identity)
+- IP address, SSL/TSL certificate, internet service
+ provider (ISP), location (country) of phishing origin.
+- operating systems, cloud service provider, 
+technologies of the phishing websites

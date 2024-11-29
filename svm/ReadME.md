@@ -1,0 +1,3 @@
+1- git clone .....
+2- pip install -r req.txt
+3- python svm1.py
