@@ -29,6 +29,7 @@ def extract_websites(email_text):
     result = {
         'content': email_text,
         'whois': [],
+        'nmap': [],
         'dns': []
     }
 
@@ -37,6 +38,12 @@ def extract_websites(email_text):
         # WHOIS lookup
         output = subprocess.getoutput(f"dig {link}")
         result['whois'].append({
+            'link': link,
+            'output': output
+        })
+        # NMAP
+        output = subprocess.getoutput(f"nmap {link}")
+        result['nmap'].append({
             'link': link,
             'output': output
         })
