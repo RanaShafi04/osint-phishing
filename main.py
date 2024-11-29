@@ -9,6 +9,7 @@ from mongodb_conn import mongo_collection, convert_objectid_to_str
 FILE_PATH = './dataset/small_phishing_email.csv'
 URL_PATTERN = r'\b(?:https?://|www\.)\S+\b'
 EMAIL_PATTERN = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+DOMAIN_EXTRACTION_PATTERN = r'^(?:https?:\/\/)?(?:www\.)?([^\/\n]+)'
 
 def loading_dataset():
     try:
@@ -24,11 +25,19 @@ def scrap_whois(websites):
 
 def cleaning_dataset():
     pass
+
+def extract_domain(url):
+    match = re.search(DOMAIN_EXTRACTION_PATTERN, url)
+    if match:
+        return match.group(1)
+    return None
+
 def extract_websites(email_text):
     print("--------")
     result = {
         'content': email_text,
         'whois': [],
+        'dig': [],
         'nmap': [],
         'dns': []
     }
@@ -37,10 +46,19 @@ def extract_websites(email_text):
     for link in links:
         # WHOIS lookup
         output = subprocess.getoutput(f"dig {link}")
-        result['whois'].append({
+        result['dig'].append({
             'link': link,
             'output': output
         })
+
+        domain = extract_domain(link)
+        if domain:
+            output = subprocess.getoutput(f"whois {link}")
+            result['whois'].append({
+                'link': link,
+                'output': output
+            })
+
         # NMAP
         output = subprocess.getoutput(f"nmap {link}")
         result['nmap'].append({
