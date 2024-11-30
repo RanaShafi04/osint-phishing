@@ -33,16 +33,17 @@ def extract_domain(url):
     return None
 
 def extract_websites(email_text):
-    print("--------")
     result = {
         'content': email_text,
         'whois': [],
         'dig': [],
         'nmap': [],
-        'dns': []
+        'geolocation': [],
+        'dns': [],
     }
 
     links = set(re.findall(URL_PATTERN, email_text))
+    print(f"processing links {links}")
     for link in links:
         # WHOIS lookup
         output = subprocess.getoutput(f"dig {link}")
@@ -53,12 +54,19 @@ def extract_websites(email_text):
 
         domain = extract_domain(link)
         if domain:
-            output = subprocess.getoutput(f"whois {link}")
+            output = subprocess.getoutput(f"whois {domain}")
             result['whois'].append({
-                'link': link,
+                'domain': domain,
                 'output': output
             })
-
+            # NMAP Geo location
+            output = subprocess.getoutput(
+                f"nmap --script ip-geolocation-geoplugin {domain}")
+            result['geolocation'].append({
+                'domain': domain,
+                'output': output
+            })
+        
         # NMAP
         output = subprocess.getoutput(f"nmap {link}")
         result['nmap'].append({
