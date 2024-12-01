@@ -1,0 +1,1 @@
+ mongodump -u=admin -p=admin --db=osint-phishing --authenticationDatabase=admin
