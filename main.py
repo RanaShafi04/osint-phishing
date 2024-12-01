@@ -3,6 +3,7 @@
 import re
 import subprocess
 import pandas as pd
+from hashlib import sha256
 from mongodb_conn import mongo_collection, convert_objectid_to_str
 
 
@@ -13,7 +14,8 @@ DOMAIN_EXTRACTION_PATTERN = r'^(?:https?:\/\/)?(?:www\.)?([^\/\n]+)'
 
 # Configuration
 RETRIES = 3
-TIMEOUT = 10  # seconds
+TIMEOUT = 5  # seconds
+THEHARVESTER_ENGINE = 'bing'
 
 def loading_dataset():
     try:
@@ -43,9 +45,12 @@ def collect_command_output(command, domain, command_type, result):
 
 def extract_websites(email_text, email_type):
     result = {
+        'hash': sha256(email_text.encode('utf-8')).hexdigest(),
         'content': email_text,
         'email_type': email_type,
-        'emails': [],
+        'links': [], # URLs
+        'domains': [],
+        'subdomains':[],
         'whois': [],
         'dig': [],
         'nmap': [],
@@ -54,16 +59,34 @@ def extract_websites(email_text, email_type):
 
     links = set(re.findall(URL_PATTERN, email_text))
     print(f"Processing links: {links}")
-
+    domains = set()
     for link in links:
         domain = extract_domain(link)
-        if domain:
-            collect_command_output(f"whois {domain}", domain, 'whois', result)
-            collect_command_output(f"dig {domain}", domain, 'dig', result)
-            collect_command_output(f"nmap --script ip-geolocation-geoplugin {domain}", domain, 'geolocation', result)
-            collect_command_output(f"nmap {domain}", domain, 'nmap', result)
+        domains.add(domain)
+        collect_command_output(f"dig {link}", link, 'dig', result)
+        collect_command_output(f"nmap {link}", link, 'nmap', result)
+
+    # remove duplicate domains
+    subdomains = set()
+    for domain in domains:
+        print(domain)
+        collect_command_output(f"whois {domain}", domain, 'whois', result)
+        collect_command_output(
+            f"nmap --script ip-geolocation-geoplugin {domain}", domain, 'geolocation', result)
+        # find sub-domains with theHarvester
+        harvesterCmd = f"theHarvester -d {domain} -b {THEHARVESTER_ENGINE}"
+        output = collect_command_output(harvesterCmd, domain, 'subdomains', result)
+        result['subdomains'].append({
+            'domain': domain,
+            'output': str(output)
+        })
+
+
+    result['domains'] = list(domains)
+    result['subdomains'] = list(subdomains)
 
     result['emails'] = list(set(re.findall(EMAIL_PATTERN, email_text)))
+    result['links'] = list(links)
     result = convert_objectid_to_str(result)
     mongo_collection.insert_one(result)
 
