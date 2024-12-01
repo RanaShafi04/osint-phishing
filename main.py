@@ -32,9 +32,10 @@ def extract_domain(url):
         return match.group(1)
     return None
 
-def extract_websites(email_text):
+def extract_websites(email_text, email_type):
     result = {
         'content': email_text,
+        'email_type': email_type,
         'whois': [],
         'dig': [],
         'nmap': [],
@@ -86,7 +87,7 @@ def extract_websites(email_text):
 def iterate_each_row(df):
     for index, row in df.head(20).iterrows():
         # print(row['EmailText'], row['EmailType'])
-        extract_websites(row['EmailText'])
+        extract_websites(row['EmailText'], row['EmailType'])
 
 if __name__ == '__main__':
     df = loading_dataset()
