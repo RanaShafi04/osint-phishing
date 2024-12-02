@@ -1,0 +1,1 @@
+export GOOGLE_APPLICATION_CREDENTIALS="/Users/panharith/Documents/CyberMACS/Semester-1/Courses/Research-Method/Assignment/code/googleTranslate/keys/metal-incline-443410-k9-08dde4317b6e.json"
