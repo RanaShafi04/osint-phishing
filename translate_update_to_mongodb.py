@@ -2,11 +2,12 @@ import pandas as pd
 from hashlib import sha256
 from pymongo import MongoClient, errors
 import zlib  # For compression
+from translate_transformer import translate_text_to_french
 
 FILE_PATH = './dataset/official_Phishing_Email.csv'
 TARGET_LANGUAGE = 'fr'
 HAS_THRESHOLD_LIMIT = True
-TRANSLATION_THRESHOLD_CHAR = 10_000
+TRANSLATION_THRESHOLD_CHAR = 100_000
 
 # Connect to MongoDB
 client = MongoClient("mongodb://admin:admin@localhost:27017/")  # Adjust your URI accordingly
@@ -63,7 +64,8 @@ def update_translate_to_mongo(email_text, current_count):
             if HAS_THRESHOLD_LIMIT and next_count > TRANSLATION_THRESHOLD_CHAR:
                 return -1 # signal to the caller function to stop the executiion
 
-            translated_text = translate_text(TARGET_LANGUAGE, document['email_text'])
+            # translated_text = translate_text(TARGET_LANGUAGE, document['email_text'])
+            translated_text = translate_text_to_french(document['email_text'])
             if len(email_bytes) > threshold_size:
                 translated_text = zlib.compress(
                     bytes(translated_text, 'utf-8'))

@@ -1,0 +1,3 @@
+mongo db shell
+db["dataset1-fr"].find({ "fr": { $exists: false } })
+db.collection.countDocuments({ "fr": { $exists: false } })
