@@ -88,6 +88,7 @@ if __name__ == '__main__':
     with open(LOG_FILE, "a") as log_file:
         log_file.write(f"Translation completed at: {end_time}\n")
         log_file.write(f"Total execution time: {execution_time}\n")
+        log_file.write(f"Total translated record: {QUERY_LIMIT}\n")
         log_file.write("========================================\n")
 
     print("Translation completed.")
