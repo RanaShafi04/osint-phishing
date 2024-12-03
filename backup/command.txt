@@ -1,4 +1,4 @@
 1- backup
 mongodump -u=admin -p=admin --db=osint-phishing --authenticationDatabase=admin
 2- restore
-mongorestore -u=admin -p=admin  --db=osint-phishing --collection=dataset1-fr </PATH_TO_FILE/.bson>
+mongorestore -u=admin -p=admin  --db=osint-phishing --authenticationDatabase=admin --collection=dataset1-fr-bk </PATH_TO_FILE/.bson>
