@@ -7,8 +7,8 @@ from datetime import datetime
 
 # Configuration
 TARGET_LANGUAGE = 'fr'
-NUM_THREADS = 4  # Configurable number of threads
-QUERY_LIMIT = 16  # Number of documents to process
+NUM_THREADS = 6  # Configurable number of threads
+QUERY_LIMIT = 48  # Number of documents to process
 LOG_FILE = "translate.log"  # Log file name
 FAIL_LOG_FILE = "fail_translation.log"  # Fail log file name
 
@@ -83,6 +83,7 @@ if __name__ == '__main__':
 
     end_time = datetime.now()  # Log end time
     execution_time = end_time - start_time
+    average_time_per_record = execution_time.total_seconds() / QUERY_LIMIT
 
     # Write log details to the file
     with open(LOG_FILE, "a") as log_file:
@@ -90,6 +91,7 @@ if __name__ == '__main__':
         log_file.write(f"Total execution time: {execution_time}\n")
         log_file.write(f"Total translated record: {QUERY_LIMIT}\n")
         log_file.write(f"Number of threads: {NUM_THREADS}\n")
+        log_file.write(f"Avg time per record in secconds: {average_time_per_record:.2f}\n")
         log_file.write("========================================\n")
 
     print("Translation completed.")
