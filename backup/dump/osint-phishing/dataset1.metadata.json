@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"osint-phishing.dataset1"}],"uuid":"9a28ae2b81aa41bca87e4c31f195c71c","collectionName":"dataset1","type":"collection"}
