@@ -1,4 +1,8 @@
-1- backup
+1- backup 1 Collection ONLY.
+mongodump -u admin -p admin --db osint-phishing --collection dataset1-fr --authenticationDatabase admin --out dump-$(date +"%Y-%m-%d_%H-%M-%S")
+
+2- backup all collections
 mongodump -u=admin -p=admin --db=osint-phishing --authenticationDatabase=admin
-2- restore
+
+3- restore
 mongorestore -u=admin -p=admin  --db=osint-phishing --authenticationDatabase=admin --collection=dataset1-fr-bk </PATH_TO_FILE/.bson>
