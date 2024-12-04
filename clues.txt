@@ -20,3 +20,5 @@ Please help me thinking what kind of prediction
  provider (ISP), location (country) of phishing origin.
 - operating systems, cloud service provider, 
 technologies of the phishing websites
+
+source /Users/panharith/Documents/CyberMACS/Semester-1/Courses/Research-Method/Assignment/code/pythonProject/.venv/bin/activate

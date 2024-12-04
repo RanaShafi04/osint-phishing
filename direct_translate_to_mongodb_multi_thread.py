@@ -8,7 +8,7 @@ from datetime import datetime
 # Configuration
 TARGET_LANGUAGE = 'fr'
 NUM_THREADS = 6  # Configurable number of threads
-QUERY_LIMIT = 48  # Number of documents to process
+QUERY_LIMIT = 500  # Number of documents to process
 LOG_FILE = "translate.log"  # Log file name
 FAIL_LOG_FILE = "fail_translation.log"  # Fail log file name
 
@@ -18,7 +18,6 @@ db = client['osint-phishing']
 collection = db['dataset1-fr']
 
 collection.create_index([('hash', 1)], unique=True)
-
 
 def log_error_to_file(error_message, document_hash):
     """Log errors with the document hash to a separate fail log file."""
@@ -66,13 +65,14 @@ def update_translate_to_mongo(document):
         print(f"Error: {e}")
         log_error_to_file(str(e), document.get('hash', 'unknown'))  # Log error to fail log
 
-
 if __name__ == '__main__':
     start_time = datetime.now()  # Log start time
     with open(LOG_FILE, "a") as log_file:
         log_file.write(f"Translation started at: {start_time}\n")
 
-    cursor = collection.find({TARGET_LANGUAGE: {"$exists": False}}).limit(QUERY_LIMIT)
+    cursor = collection.find(
+        {TARGET_LANGUAGE: {"$exists": False}}
+    ).sort('_id', 1).limit(QUERY_LIMIT)
 
     # Use ThreadPoolExecutor for multithreading
     with ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:

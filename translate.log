@@ -1,0 +1,148 @@
+Translation started at: 2024-12-03 17:11:49.994376
+Translation completed at: 2024-12-03 17:12:49.256127
+Total execution time: 0:00:59.261751
+========================================
+Translation started at: 2024-12-03 17:13:16.108856
+Translation completed at: 2024-12-03 17:14:14.385622
+Total execution time: 0:00:58.276766
+========================================
+Translation started at: 2024-12-03 17:16:55.709576
+Translation completed at: 2024-12-03 17:17:53.396428
+Total execution time: 0:00:57.686852
+========================================
+Translation started at: 2024-12-03 17:24:20.327209
+Translation completed at: 2024-12-03 17:25:10.333932
+Total execution time: 0:00:50.006723
+Total translated record: 16
+========================================
+Translation started at: 2024-12-03 17:40:31.321335
+Translation completed at: 2024-12-03 17:41:16.479992
+Total execution time: 0:00:45.158657
+Total translated record: 16
+Number of threads: 4
+========================================
+Translation started at: 2024-12-03 17:43:01.709543
+Translation completed at: 2024-12-03 17:43:52.199604
+Total execution time: 0:00:50.490061
+Total translated record: 16
+Number of threads: 4
+========================================
+Translation started at: 2024-12-03 17:44:35.155301
+Translation completed at: 2024-12-03 17:45:14.341196
+Total execution time: 0:00:39.185895
+Total translated record: 16
+Number of threads: 3
+========================================
+Translation started at: 2024-12-03 17:49:15.129593
+Translation completed at: 2024-12-03 17:50:46.384274
+Total execution time: 0:01:31.254681
+Total translated record: 32
+Number of threads: 6
+========================================
+Translation started at: 2024-12-03 17:56:44.395539
+Translation completed at: 2024-12-03 17:58:00.824005
+Total execution time: 0:01:16.428466
+Total translated record: 32
+Number of threads: 6
+========================================
+Translation started at: 2024-12-03 18:04:29.380923
+Translation completed at: 2024-12-03 18:05:46.318446
+Total execution time: 0:01:16.937523
+Total translated record: 32
+Number of threads: 6
+Avg time per record in secconds: 2.40429759375
+========================================
+Translation started at: 2024-12-03 18:06:41.109137
+Translation completed at: 2024-12-03 18:08:37.568353
+Total execution time: 0:01:56.459216
+Total translated record: 48
+Number of threads: 6
+Avg time per record in secconds: 2.4262336666666666
+========================================
+Translation started at: 2024-12-03 18:21:54.200059
+Translation completed at: 2024-12-03 18:24:29.835605
+Total execution time: 0:02:35.635546
+Total translated record: 48
+Number of threads: 6
+Avg time per record in secconds: 3.24
+========================================
+Translation started at: 2024-12-03 19:42:37.923425
+Translation completed at: 2024-12-03 19:49:58.419668
+Total execution time: 0:07:20.496243
+Total translated record: 150
+Number of threads: 6
+Avg time per record in secconds: 2.94
+========================================
+Translation started at: 2024-12-03 19:52:46.972303
+Translation completed at: 2024-12-03 20:05:43.245555
+Total execution time: 0:12:56.273252
+Total translated record: 250
+Number of threads: 6
+Avg time per record in secconds: 3.11
+========================================
+Translation started at: 2024-12-03 20:06:45.758420
+Translation completed at: 2024-12-03 20:32:25.709087
+Total execution time: 0:25:39.950667
+Total translated record: 500
+Number of threads: 6
+Avg time per record in secconds: 3.08
+========================================
+Translation started at: 2024-12-03 20:36:01.893428
+Translation completed at: 2024-12-03 21:02:24.448357
+Total execution time: 0:26:22.554929
+Total translated record: 500
+Number of threads: 6
+Avg time per record in secconds: 3.17
+========================================
+Translation started at: 2024-12-03 21:08:39.369297
+Translation completed at: 2024-12-03 21:34:57.960294
+Total execution time: 0:26:18.590997
+Total translated record: 500
+Number of threads: 6
+Avg time per record in secconds: 3.16
+========================================
+Translation started at: 2024-12-03 22:35:13.071778
+Translation completed at: 2024-12-03 23:25:54.764133
+Total execution time: 0:50:41.692355
+Total translated record: 800
+Number of threads: 6
+Avg time per record in secconds: 3.80
+========================================
+Translation started at: 2024-12-03 23:32:35.707148
+Translation completed at: 2024-12-04 04:16:43.647782
+Total execution time: 4:44:07.940634
+Total translated record: 5000
+Number of threads: 6
+Avg time per record in secconds: 3.41
+========================================
+Translation started at: 2024-12-04 09:15:01.177912
+Translation completed at: 2024-12-04 10:55:54.202904
+Total execution time: 1:40:53.024992
+Total translated record: 1000
+Number of threads: 6
+Avg time per record in secconds: 6.05
+I locked screen for this computation.
+========================================
+Translation started at: 2024-12-04 11:00:28.302464
+Translation completed at: 2024-12-04 11:19:19.654164
+Total execution time: 0:18:51.351700
+Total translated record: 500
+Number of threads: 6
+Avg time per record in secconds: 2.26
+========================================
+Translation started at: 2024-12-04 11:21:43.133723
+Translation completed at: 2024-12-04 11:27:39.189204
+Total execution time: 0:05:56.055481
+Total translated record: 60
+Number of threads: 6
+Avg time per record in seconds: 5.93
+-> compute large email text beyond 10KB
+========================================
+
+Translation started at: 2024-12-04 12:18:23.642318
+Translation completed at: 2024-12-04 12:38:37.484824
+Total execution time: 0:20:13.842506
+Total translated record: 500
+Number of threads: 6
+Avg time per record in secconds: 2.43
+========================================
