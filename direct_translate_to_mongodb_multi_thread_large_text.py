@@ -8,7 +8,7 @@ from datetime import datetime
 # Configuration
 TARGET_LANGUAGE = 'fr'
 NUM_THREADS = 6  # Configurable number of threads
-QUERY_LIMIT = 60  # Number of documents to process
+QUERY_LIMIT = 5000  # Number of documents to process
 LOG_FILE = "translate.log"  # Log file name
 FAIL_LOG_FILE = "fail_translation.log"  # Fail log file name
 
