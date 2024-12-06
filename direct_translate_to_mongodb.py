@@ -1,9 +1,9 @@
 from hashlib import sha256
 from pymongo import MongoClient, errors
 import zlib  # For compression
-from translate_transformer import translate_text_to_french
+from translate_transformer import translate_text_to_target_lang
 
-TARGET_LANGUAGE = 'fr'
+TARGET_LANGUAGE = 'ru'
 TRANSLATION_THRESHOLD_CHAR = 10_000  # Limit for translation
 
 # Connect to MongoDB
@@ -48,7 +48,7 @@ def update_translate_to_mongo(document, current_count):
                 return -1  # Stop execution signal
 
             # Translate and compress if necessary
-            translated_text = translate_text_to_french(email_text)
+            translated_text = translate_text_to_target_lang(email_text, TARGET_LANGUAGE)
             if len(email_bytes) > threshold_size:
                 translated_text = zlib.compress(translated_text.encode('utf-8'))
 

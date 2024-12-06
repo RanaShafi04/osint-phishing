@@ -1,14 +1,14 @@
 import zlib
 from hashlib import sha256
 from pymongo import MongoClient, errors
-from translate_transformer import translate_text_to_french
+from translate_transformer import translate_text_to_target_lang
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
 # Configuration
-TARGET_LANGUAGE = 'fr'
+TARGET_LANGUAGE = 'ru'
 NUM_THREADS = 6  # Configurable number of threads
-QUERY_LIMIT = 5000  # Number of documents to process
+QUERY_LIMIT = 100  # Number of documents to process
 LOG_FILE = "translate.log"  # Log file name
 FAIL_LOG_FILE = "fail_translation.log"  # Fail log file name
 
@@ -49,7 +49,7 @@ def update_translate_to_mongo(document):
             return
 
         # Translate and compress if necessary
-        translated_text = translate_text_to_french(email_text)
+        translated_text = translate_text_to_target_lang(email_text, TARGET_LANGUAGE)
         if is_large:
             translated_text = zlib.compress(translated_text.encode('utf-8'))
 
