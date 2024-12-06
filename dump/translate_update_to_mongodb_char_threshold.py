@@ -2,9 +2,9 @@ import pandas as pd
 from hashlib import sha256
 from pymongo import MongoClient, errors
 import zlib  # For compression
-from translate_transformer import translate_text_to_french
+from translate_transformer import translate_text_to_target_lang
 
-FILE_PATH = './dataset/official_Phishing_Email.csv'
+FILE_PATH = '../dataset/official_Phishing_Email.csv'
 TARGET_LANGUAGE = 'fr'
 HAS_THRESHOLD_LIMIT = True
 TRANSLATION_THRESHOLD_CHAR = 100_000
@@ -65,7 +65,7 @@ def update_translate_to_mongo(email_text, current_count):
                 return -1 # signal to the caller function to stop the executiion
 
             # translated_text = translate_text(TARGET_LANGUAGE, document['email_text'])
-            translated_text = translate_text_to_french(document['email_text'])
+            translated_text = translate_text_to_target_lang(document['email_text'])
             if len(email_bytes) > threshold_size:
                 translated_text = zlib.compress(
                     bytes(translated_text, 'utf-8'))
@@ -111,10 +111,6 @@ def update_translate_to_mongo(email_text, current_count):
 #     # print(u"Detected source language: {}".format(result["detectedSourceLanguage"]))
 #     return result["translatedText"]
 
-def translate_text(lang, text):
-    translated_text = 'ttt'
-    return translated_text
-
 def iterate_each_row(df, start_index, end_index):
     # Ensure indices are within the DataFrame's range
     if start_index < 0 or end_index > len(df) or start_index >= end_index:
@@ -136,7 +132,7 @@ def iterate_each_row(df, start_index, end_index):
             break
         count += next_count
 
-    with open("translate_log.txt", "a") as f:
+    with open("../translate_log.txt", "a") as f:
         log = f"total translated characters = {count}. in language {TARGET_LANGUAGE}\n\n"
         print(log)
         f.write(log)
