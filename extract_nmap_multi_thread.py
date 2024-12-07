@@ -60,11 +60,11 @@ def update_value_to_mongo(document):
             })
 
         # Update document in MongoDB
-        # collection.update_one(
-        #     {"_id": document["_id"]},
-        #     {"$set": {"nmap": values}}
-        # )
-        # print(f"Document updated: {document['_id']}")
+        collection.update_one(
+            {"_id": document["_id"]},
+            {"$set": {"nmap": values}}
+        )
+        print(f"Document updated: {document['_id']}")
     except errors.DuplicateKeyError:
         print(f"Duplicate document: {document['_id']}")
     except Exception as e:
