@@ -1,51 +1,70 @@
+# -*- coding: utf-8 -*-
+import subprocess
 from pymongo import MongoClient, errors
-# from translate_transformer import translate_text_to_target_lang
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from utilities import collect_command_output
 
 # Configuration
 TARGET_KEY = 'nmap'
-NUM_THREADS = 6  # Configurable number of threads
-QUERY_LIMIT = 10  # Number of documents to process
-LOG_FILE = f"{TARGET_KEY}.log"  # Log file name
-FAIL_LOG_FILE = f"fail_{TARGET_KEY}.log"  # Fail log file name
+RETRIES = 3
+TIMEOUT = 120  # Increased timeout (2 minutes) to avoid Nmap timeout issues
+NUM_THREADS = 6  # Number of threads for processing
+QUERY_LIMIT = 25  # Limit for documents to process
+LOG_FILE = "nmap.log"  # Log file name for success logs
+FAIL_LOG_FILE = "fail_nmap.log"  # Fail log file for error logs
 
 # Connect to MongoDB
 client = MongoClient("mongodb://admin:admin@localhost:27017/")
 db = client['osint-phishing']
-collection = db['dataset1-nmap']
+collection = db['dataset1-fr']
 
-collection.create_index([('hash', 1)], unique=True)
+# Run a command with retries and return the output
+def run_command_with_retries(command, retries=RETRIES, timeout=TIMEOUT):
+    try:
+        # Use subprocess.Popen for real-time output handling
+        print("running $ ", command)
+        with subprocess.Popen(
+            command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        ) as process:
+            stdout, stderr = process.communicate(timeout=timeout)
+            if process.returncode == 0:
+                return stdout.strip()
+            else:
+                print(f"Command failed with error: {stderr.strip()}")
+    except subprocess.TimeoutExpired:
+        process.kill()
+        print(f"Timeout expired for command: {command}")
+    except Exception as e:
+        print(f"Error executing command: {command} - {e}")
+    return "Command failed after retries"
 
+# Function to log errors into a separate file
 def log_error_to_file(error_message, document_hash):
     """Log errors with the document hash to a separate fail log file."""
     with open(FAIL_LOG_FILE, "a") as fail_log:
-        fail_log.write(f"Translation Error with document {document_hash}: {error_message}\n")
+        fail_log.write(f"Error with document {document_hash}: {error_message}\n")
 
-def get_target_value(link):
-    result = {}
-    res = collect_command_output(f"nmap {link}", link, 'nmap', result)
-    print(res)
-    return result
-
+# Function to process each document, run the Nmap scan and update MongoDB
 def update_value_to_mongo(document):
     try:
         values = []
         for domain in document['domains']:
-            value = get_target_value(domain)
-            # Update document in MongoDB
+            # Run Nmap scan for the domain
+            cmd = f"nmap -Pn -T4 --max-retries {RETRIES} {domain}"
+            nmap_output = run_command_with_retries(cmd)
+            values.append({
+                'datetime': datetime.now(),
+                'domain': domain,
+                'command': cmd,
+                'output': nmap_output,
+            })
 
-        # save to Database
+        # Update document in MongoDB
         # collection.update_one(
         #     {"_id": document["_id"]},
-        #     {
-        #         "$set": {
-        #             TARGET_KEY: values,
-        #         }
-        #     }
+        #     {"$set": {"nmap": values}}
         # )
-        print(f"Document updated: {document['_id']}")
+        # print(f"Document updated: {document['_id']}")
     except errors.DuplicateKeyError:
         print(f"Duplicate document: {document['_id']}")
     except Exception as e:
@@ -55,14 +74,15 @@ def update_value_to_mongo(document):
 if __name__ == '__main__':
     start_time = datetime.now()  # Log start time
     with open(LOG_FILE, "a") as log_file:
-        log_file.write(f"Translation started at: {start_time}\n")
+        log_file.write(f"Script started at: {start_time}\n")
 
+    # Query MongoDB to get the documents that need processing
     cursor = collection.find({
         '$and': [
             {'domains': {"$exists": True}},  # Check if 'domains' does not exist
             {'domains': {"$ne": []}}  # Ensure 'domains' is not an empty array
         ],
-        # TARGET_KEY: {'$exists': False}  # Check if 'TARGET_KEY' does not exist
+        TARGET_KEY: {'$exists': False}  # Check if 'TARGET_KEY' does not exist
     }).sort('_id', 1).limit(QUERY_LIMIT)
 
     # Use ThreadPoolExecutor for multithreading
@@ -70,19 +90,19 @@ if __name__ == '__main__':
         futures = [executor.submit(update_value_to_mongo, doc) for doc in cursor]
 
         for future in as_completed(futures):
-            future.result()  # Handle any exceptions
+            future.result()  # This will raise exceptions if any occur
 
     end_time = datetime.now()  # Log end time
     execution_time = end_time - start_time
     average_time_per_record = execution_time.total_seconds() / QUERY_LIMIT
 
-    # Write log details to the file
+    # Write execution log details to the log file
     with open(LOG_FILE, "a") as log_file:
-        log_file.write(f"Translation completed at: {end_time}\n")
+        log_file.write(f"Script completed at: {end_time}\n")
         log_file.write(f"Total execution time: {execution_time}\n")
-        log_file.write(f"Total translated record: {QUERY_LIMIT}\n")
-        log_file.write(f"Number of threads: {NUM_THREADS}\n")
-        log_file.write(f"Avg time per record in seconds: {average_time_per_record:.2f}\n")
+        log_file.write(f"Total records processed: {QUERY_LIMIT}\n")
+        log_file.write(f"Number of threads used: {NUM_THREADS}\n")
+        log_file.write(f"Avg time per record: {average_time_per_record:.2f} seconds\n")
         log_file.write("========================================\n")
 
-    print(f"{TARGET_KEY} completed.")
+    print("Nmap processing completed.")
