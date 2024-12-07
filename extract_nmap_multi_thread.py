@@ -14,7 +14,7 @@ FAIL_LOG_FILE = f"fail_{TARGET_KEY}.log"  # Fail log file name
 # Connect to MongoDB
 client = MongoClient("mongodb://admin:admin@localhost:27017/")
 db = client['osint-phishing']
-collection = db['dataset1-fr']
+collection = db['dataset1-nmap']
 
 collection.create_index([('hash', 1)], unique=True)
 
@@ -32,8 +32,8 @@ def get_target_value(link):
 def update_value_to_mongo(document):
     try:
         values = []
-        for link in document['links']:
-            value = get_target_value(link)
+        for domain in document['domains']:
+            value = get_target_value(domain)
             # Update document in MongoDB
 
         # save to Database
@@ -59,10 +59,10 @@ if __name__ == '__main__':
 
     cursor = collection.find({
         '$and': [
-            {'links': {"$exists": False}},  # Check if 'links' does not exist
-            {'links': {"$ne": []}}  # Ensure 'links' is not an empty array
+            {'domains': {"$exists": True}},  # Check if 'domains' does not exist
+            {'domains': {"$ne": []}}  # Ensure 'domains' is not an empty array
         ],
-        TARGET_KEY: {'$exists': False}  # Check if 'TARGET_KEY' does not exist
+        # TARGET_KEY: {'$exists': False}  # Check if 'TARGET_KEY' does not exist
     }).sort('_id', 1).limit(QUERY_LIMIT)
 
     # Use ThreadPoolExecutor for multithreading
@@ -85,4 +85,4 @@ if __name__ == '__main__':
         log_file.write(f"Avg time per record in seconds: {average_time_per_record:.2f}\n")
         log_file.write("========================================\n")
 
-    print("Translation completed.")
+    print(f"{TARGET_KEY} completed.")
