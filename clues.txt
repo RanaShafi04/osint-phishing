@@ -142,3 +142,11 @@ This updated evaluation provides a new set of metrics for the performance of the
    - Analyze low BLEU-scoring examples to identify recurring issues such as omitted details or mismatched phrases.
 
 Would you like help with comparing this model to others or exploring specific refinements?
+
+Todo
+Collections with links are around 3k collections
+1- Feature brainstorming
+2- collect features
+3- load to DF
+4- train
+5- report result.

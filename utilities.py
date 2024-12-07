@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import subprocess
 from mongodb_conn import mongo_collection, convert_objectid_to_str
 
 URL_PATTERN = r'\b(?:https?://|www\.)\S+\b'
@@ -24,3 +25,18 @@ def extract_domain_link_email(email_text):
     result['links'] = list(links)
     result = convert_objectid_to_str(result)
     return result
+
+def run_command_with_retries(command, retries=RETRIES, timeout=TIMEOUT):
+    for attempt in range(retries):
+        try:
+            result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=timeout)
+            return result.stdout.strip()
+        except subprocess.TimeoutExpired:
+            print(f"Timeout expired for command: {command} (Attempt {attempt + 1} of {retries})")
+        except Exception as e:
+            print(f"Error executing command: {command} - {e}")
+    return "Command failed after multiple attempts"
+
+def collect_command_output(command, domain, command_type, result):
+    output = run_command_with_retries(command)
+    result[command_type].append({'domain': domain, 'output': output})
