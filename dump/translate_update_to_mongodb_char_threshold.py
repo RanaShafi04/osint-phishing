@@ -2,7 +2,7 @@ import pandas as pd
 from hashlib import sha256
 from pymongo import MongoClient, errors
 import zlib  # For compression
-from translate_transformer import translate_text_to_target_lang
+from translation.translate_transformer import translate_text_to_target_lang
 
 FILE_PATH = '../dataset/official_Phishing_Email.csv'
 TARGET_LANGUAGE = 'fr'
@@ -132,7 +132,7 @@ def iterate_each_row(df, start_index, end_index):
             break
         count += next_count
 
-    with open("../translate_log.txt", "a") as f:
+    with open("../translation/translate_log.txt", "a") as f:
         log = f"total translated characters = {count}. in language {TARGET_LANGUAGE}\n\n"
         print(log)
         f.write(log)

@@ -3,7 +3,7 @@ from hashlib import sha256
 from pymongo import MongoClient, errors
 import zlib  # For compression
 
-FILE_PATH = './dataset/official_Phishing_Email.csv'
+FILE_PATH = '../dataset/official_Phishing_Email.csv'
 
 # Connect to MongoDB
 client = MongoClient("mongodb://admin:admin@localhost:27017/")  # Adjust your URI accordingly
