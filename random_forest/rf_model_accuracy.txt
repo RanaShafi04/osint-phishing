@@ -1,0 +1,27 @@
+Model Accuracy: 0.94
+ Report:                 precision    recall  f1-score   support
+
+Phishing Email       0.91      0.97      0.94      2198
+    Safe Email       0.97      0.90      0.93      2190
+
+      accuracy                           0.94      4388
+     macro avg       0.94      0.94      0.94      4388
+  weighted avg       0.94      0.94      0.94      4388
+ 
+ Confusion matrix: 
+[[2132   66]
+ [ 214 1976]]
+//after balancing the dataset more
+Model Accuracy: 0.93
+ Report:                 precision    recall  f1-score   support
+
+Phishing Email       0.89      0.97      0.93      2198
+    Safe Email       0.97      0.88      0.92      2190
+
+      accuracy                           0.93      4388
+     macro avg       0.93      0.93      0.93      4388
+  weighted avg       0.93      0.93      0.93      4388
+ 
+ Confusion matrix: 
+[[2129   69]
+ [ 253 1937]]
