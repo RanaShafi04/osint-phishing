@@ -39,7 +39,7 @@ desired_order = ['email_text', 'fr', 'hash', 'email_type']
 df = df[desired_order]
 
 # Ensure the output directory exists
-output_dir = Path("dataset/fr")
+output_dir = Path("../dataset/fr")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Save DataFrame to CSV with UTF-8 encoding
