@@ -2,10 +2,12 @@
 
 import re
 import subprocess
-from mongodb_conn import mongo_collection, convert_objectid_to_str
+from mongodb_conn import convert_objectid_to_str
 
 URL_PATTERN = r'\b(?:https?://|www\.)\S+\b'
 EMAIL_PATTERN = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+ROOT_DOMAIN_PATTERN = r"([a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})?)$"
+
 # DOMAIN_EXTRACTION_PATTERN = r'^(?:https?:\/\/)?(?:www\.)?([^\/\n]+)'
 DOMAIN_EXTRACTION_PATTERN = r"([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})"
 
@@ -85,3 +87,27 @@ def run_command_with_retries(command, retries=RETRIES, timeout=TIMEOUT):
 def collect_command_output(command, domain, command_type, result):
     output = run_command_with_retries(command)
     result[command_type].append({'domain': domain, 'output': output})
+
+def extract_root_domain(domain_or_url):
+    """
+    Extracts the root domain from a given URL or domain string.
+
+    Args:
+        domain_or_url (str): The input URL or domain.
+
+    Returns:
+        str: The extracted root domain or None if not valid.
+    """
+    try:
+        # Ensure input is a string
+        if not isinstance(domain_or_url, str) or not domain_or_url.strip():
+            return None
+
+        # Match the root domain pattern
+        match = re.search(ROOT_DOMAIN_PATTERN, domain_or_url.strip())
+        if match:
+            root_domain = match.group(1).lower()  # Convert to lowercase for consistency
+            return f"{root_domain}" if is_valid_domain(root_domain) else None
+    except Exception as e:
+        print(f"Error extracting root domain: {e}")
+    return None
