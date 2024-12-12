@@ -10,13 +10,13 @@ from utilities import extract_root_domain
 TARGET_KEY = 'theharvester'
 THE_HARVESTER_COMMAND = 'python theHarvester/theHarvester.py' # run via source code
 # THE_HARVESTER_COMMAND = 'theHarvester' # run in Kali Linux
-THEHARVESTER_ENGINE = 'bing'
+THEHARVESTER_ENGINE = 'all'
 
 RETRIES = 3
 DELAY_BETWEEN_RETRIES = 5  # Seconds
 TIMEOUT = 120  # Increased timeout (2 minutes) to avoid timeout issues
 NUM_THREADS = 6  # Number of threads for processing
-QUERY_LIMIT = 5  # Limit for documents to process
+QUERY_LIMIT = 100  # Limit for documents to process
 LOG_FILE = "theharvester.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_theharvester.log"  # Fail log file for error logs
 
