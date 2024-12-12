@@ -97,3 +97,52 @@ def merge_dictionaries(dict1, dict2):
         # Convert the set to a sorted, comma-separated string
         merged_dict[key] = ", ".join(combined_values)
     return merged_dict
+
+def extract_features_from_theharvester(output):
+    """
+    Extracts features from theHarvester command output.
+
+    Args:
+        output (str): Raw text output from theHarvester command.
+
+    Returns:
+        dict: Dictionary containing extracted features.
+    """
+    features = {}
+
+    try:
+        # Extract target domain
+        target_match = re.search(r"\[\*\] Target: ([\w.-]+)", output)
+        features['target_domain'] = target_match.group(1) if target_match else None
+
+        # Extract emails
+        emails = re.findall(r"[\w\.-]+@[\w\.-]+\.\w+", output)
+        features['emails'] = list(set(emails))  # Remove duplicates
+        features['num_emails'] = len(features['emails'])
+
+        # Extract hosts
+        hosts_section = re.search(r"\[\*\] Hosts found:\s*\d+\s*[-]+\s*(.*?)(?=\[\*|\Z)", output, re.S)
+        if hosts_section:
+            hosts = re.findall(r"[\w.-]+\.[\w.-]+", hosts_section.group(1))
+            features['hosts'] = list(set(hosts))  # Remove duplicates
+            features['num_hosts'] = len(features['hosts'])
+        else:
+            features['hosts'] = []
+            features['num_hosts'] = 0
+
+        # Extract IP addresses
+        ip_count = re.search(r"No IPs found\.|IPs found: (\d+)", output)
+        features['num_ips'] = int(ip_count.group(1)) if ip_count and ip_count.group(1) else 0
+
+        # Extract search sources
+        search_sources = re.findall(r"[*] Searching (\w+)", output)
+        features['search_sources'] = list(set(search_sources))
+
+        # Capture any errors
+        if "No IPs found" in output:
+            features['errors'] = "No IPs found"
+
+    except Exception as e:
+        print(f"Error parsing theHarvester output: {e}")
+
+    return features
