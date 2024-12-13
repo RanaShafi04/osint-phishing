@@ -146,3 +146,28 @@ def extract_features_from_theharvester(output):
         print(f"Error parsing theHarvester output: {e}")
 
     return features
+
+def parse_theharvester_output(output):
+    # Parse Autonomous system network count
+    asn_match = re.search(r"\[\*\] ASNS found:\s*(\d+)", output)
+    asn_count = int(asn_match.group(1)) if asn_match else 0
+
+    # Parse Interesting URLs count
+    urls_match = re.search(r"\[\*\] Interesting Urls found:\s*(\d+)", output)
+    urls_count = int(urls_match.group(1)) if urls_match else 0
+
+    # Parse IP count
+    ips_match = re.search(r"\[\*\] IPs found:\s*(\d+)", output)
+    ips_count = int(ips_match.group(1)) if ips_match else 0
+
+    # Parse Host count
+    hosts_match = re.search(r"\[\*\] Hosts found:\s*(\d+)", output)
+    hosts_count = int(hosts_match.group(1)) if hosts_match else 0
+
+    # Return extracted counts
+    return {
+        "asn_found": asn_count,
+        "interesting_url": urls_count,
+        "ip_found": ips_count,
+        "host_found": hosts_count
+    }
