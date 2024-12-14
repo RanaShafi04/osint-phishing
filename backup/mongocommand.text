@@ -1,0 +1,14 @@
+db["dataset1-fr"].countDocuments({
+    $and: [
+        { nmap: { $exists: true, $ne: [] } },
+        { theharvester: { $exists: true, $ne: [] } }
+    ]
+});
+
+
+db["dataset1-fr"].countDocuments({
+    theharvester: { $exists: true, $ne: [] }
+})
+
+
+

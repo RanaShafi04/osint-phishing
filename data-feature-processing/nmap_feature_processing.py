@@ -6,9 +6,9 @@ from process_utilities import parse_nmap_output, merge_dictionaries
 
 # Configuration
 SRC_KEY = 'nmap'
-TARGET_KEY = 'features'
+TARGET_KEY = 'nmap_features'
 NUM_THREADS = 6  # Number of threads for processing
-QUERY_LIMIT = 25  # Limit for documents to process
+QUERY_LIMIT = 5000  # Limit for documents to process
 LOG_FILE = "nmap_feature_processing.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_nmap_feature_processing.log"  # Fail log file for error logs
 
@@ -27,7 +27,7 @@ def log_error_to_file(error_message, document_hash):
 def update_value_to_mongo(document):
     try:
         # Get existing features
-        features = document['features'] if 'features' in document else {}
+        features = document[TARGET_KEY] if TARGET_KEY in document else {}
 
         for itm in document['nmap']:
             features = merge_dictionaries(features,
