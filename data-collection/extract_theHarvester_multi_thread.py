@@ -4,18 +4,19 @@ import time
 from pymongo import MongoClient, errors
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from utilities import extract_root_domain
 
 # Configuration
 TARGET_KEY = 'theharvester'
 THE_HARVESTER_COMMAND = 'python theHarvester/theHarvester.py' # run via source code
 # THE_HARVESTER_COMMAND = 'theHarvester' # run in Kali Linux
-THEHARVESTER_ENGINE = 'bing'
+THEHARVESTER_ENGINE = 'all'
 
 RETRIES = 3
 DELAY_BETWEEN_RETRIES = 5  # Seconds
 TIMEOUT = 120  # Increased timeout (2 minutes) to avoid timeout issues
-NUM_THREADS = 1  # Number of threads for processing
-QUERY_LIMIT = 5  # Limit for documents to process
+NUM_THREADS = 6  # Number of threads for processing
+QUERY_LIMIT = 200  # Limit for documents to process
 LOG_FILE = "theharvester.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_theharvester.log"  # Fail log file for error logs
 
@@ -91,8 +92,12 @@ def update_value_to_mongo(document):
     try:
         values = []
         for domain in document['domains']:
+            root_domain = extract_root_domain(domain)
+            if not root_domain:
+                print(f"Fail to extract root domain from {domain}")
+                continue
             # Run theHarvester scan for the domain
-            command = f"{THE_HARVESTER_COMMAND} -d {domain} -l 500 -b {THEHARVESTER_ENGINE}"  # Customize as needed
+            command = f"{THE_HARVESTER_COMMAND} -d {root_domain} -l 500 -b {THEHARVESTER_ENGINE}"  # Customize as needed
             output = run_theharvester(domain, command)
             if output:
                 print(output)
