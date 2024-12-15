@@ -9,7 +9,7 @@ TARGET_KEY = 'nmap'
 RETRIES = 3
 TIMEOUT = 120  # Increased timeout (2 minutes) to avoid Nmap timeout issues
 NUM_THREADS = 6  # Number of threads for processing
-QUERY_LIMIT = 25  # Limit for documents to process
+QUERY_LIMIT = 180  # Limit for documents to process
 LOG_FILE = "nmap.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_nmap.log"  # Fail log file for error logs
 

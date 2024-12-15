@@ -18,6 +18,12 @@ nmap_keys = [
 theharvester_keys = ["host_found", "interesting_url", "asn_found", "ip_found"]
 columns = ["email_text"] + nmap_keys + theharvester_keys + ["email_type"]
 
+query = {
+    '$and': [
+        {'nmap_features': { '$exists': True, '$ne': {} } },
+        { 'theharvester_features': { '$exists': True,'$ne': {} } }
+    ]
+}
 # Prepare CSV file
 output_file = f"exported_data{datetime.now()}.csv"
 with open(output_file, mode="w", newline="", encoding="utf-8") as file:
@@ -25,7 +31,7 @@ with open(output_file, mode="w", newline="", encoding="utf-8") as file:
     writer.writeheader()
 
     # Query all documents in the collection
-    for document in collection.find():
+    for document in collection.find(query):
         row = {}
         row["email_text"] = document.get("email_text", "")
         row["email_type"] = document.get("email_type", "")
