@@ -1,0 +1,6 @@
+  Model Accuracy: 0.91
+ Recall:0.82
+ Precision:1.00 
+ Confusion matrix: 
+[[74  0]
+ [14 62]]

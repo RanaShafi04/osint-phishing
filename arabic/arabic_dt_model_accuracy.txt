@@ -1,0 +1,6 @@
+(criterion=gini)
+ Training set score: 0.9224
+ Test set score:0.8485
+(criterion=entropy)
+Training set score: 1.0000
+ Test set score:0.9030
