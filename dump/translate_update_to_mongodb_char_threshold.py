@@ -7,7 +7,7 @@ import zlib  # For compression
 FILE_PATH = '/Users/panharith/Documents/CyberMACS/Semester-1/Courses/Research-Method/Assignment/code/osint-phishing/dataset/English-ONLY.csv'
 TARGET_LANGUAGE = 'ar'
 HAS_THRESHOLD_LIMIT = True
-TRANSLATION_THRESHOLD_CHAR = 50_000
+TRANSLATION_THRESHOLD_CHAR = 500_000
 
 # Connect to MongoDB
 client = MongoClient("mongodb://admin:admin@localhost:27017/")  # Adjust your URI accordingly
@@ -131,6 +131,7 @@ def iterate_each_row(df, start_index, end_index):
         next_count = update_translate_to_mongo(email_text, count)
         if next_count <0: # stop the execution when it's a negative count
             break
+
         count += next_count
 
     with open("../translation/translate_log.txt", "a") as f:
