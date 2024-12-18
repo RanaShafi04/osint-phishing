@@ -1,0 +1,45 @@
+Model: ComplementNB
+Accuracy: 0.96
+Confusion Matrix:
+49 2
+9 190
+Classification Report:
+              precision    recall  f1-score   support
+
+          -1       0.84      0.96      0.90        51
+           1       0.99      0.95      0.97       199
+
+    accuracy                           0.96       250
+   macro avg       0.92      0.96      0.94       250
+weighted avg       0.96      0.96      0.96       250
+--------------------------------------------------
+Model: BernoulliNB
+Accuracy: 0.96
+Confusion Matrix:
+40 11
+0 199
+Classification Report:
+              precision    recall  f1-score   support
+
+          -1       1.00      0.78      0.88        51
+           1       0.95      1.00      0.97       199
+
+    accuracy                           0.96       250
+   macro avg       0.97      0.89      0.93       250
+weighted avg       0.96      0.96      0.95       250
+--------------------------------------------------
+Model: MultinomialNB
+Accuracy: 0.93
+Confusion Matrix:
+33 18
+0 199
+Classification Report:
+              precision    recall  f1-score   support
+
+          -1       1.00      0.65      0.79        51
+           1       0.92      1.00      0.96       199
+
+    accuracy                           0.93       250
+   macro avg       0.96      0.82      0.87       250
+weighted avg       0.93      0.93      0.92       250
+--------------------------------------------------
