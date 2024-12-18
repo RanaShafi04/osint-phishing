@@ -2,12 +2,12 @@ import pandas as pd
 from hashlib import sha256
 from pymongo import MongoClient, errors
 import zlib  # For compression
-from translation.translate_transformer import translate_text_to_target_lang
+# from translation.translate_transformer import translate_text_to_target_lang
 
-FILE_PATH = '../dataset/official_Phishing_Email.csv'
-TARGET_LANGUAGE = 'fr'
+FILE_PATH = '/Users/panharith/Documents/CyberMACS/Semester-1/Courses/Research-Method/Assignment/code/osint-phishing/dataset/English-ONLY.csv'
+TARGET_LANGUAGE = 'ar'
 HAS_THRESHOLD_LIMIT = True
-TRANSLATION_THRESHOLD_CHAR = 100_000
+TRANSLATION_THRESHOLD_CHAR = 50_000
 
 # Connect to MongoDB
 client = MongoClient("mongodb://admin:admin@localhost:27017/")  # Adjust your URI accordingly
@@ -62,10 +62,10 @@ def update_translate_to_mongo(email_text, current_count):
             # Validate on Threshold char
             next_count = current_count + len(document['email_text'])
             if HAS_THRESHOLD_LIMIT and next_count > TRANSLATION_THRESHOLD_CHAR:
-                return -1 # signal to the caller function to stop the executiion
+                return -1 # signal to the caller function to stop the execution
 
-            # translated_text = translate_text(TARGET_LANGUAGE, document['email_text'])
-            translated_text = translate_text_to_target_lang(document['email_text'])
+            translated_text = google_translate_text(TARGET_LANGUAGE, document['email_text'])
+            # translated_text = translate_text_to_target_lang(document['email_text'])
             if len(email_bytes) > threshold_size:
                 translated_text = zlib.compress(
                     bytes(translated_text, 'utf-8'))
@@ -88,28 +88,29 @@ def update_translate_to_mongo(email_text, current_count):
         print(f"An error occurred: {e}")
         return 0
 
-# def google_translate_text(target, text):
-#     """Translates text into the target language.
-#     Target must be an ISO 639-1 language code.
-#     See https://g.co/cloud/translate/v2/translate-reference#supported_languages
-#     """
-#     return
-#     import six
-#     from google.cloud import translate_v2 as translate
-#
-#     translate_client = translate.Client()
-#
-#     if isinstance(text, six.binary_type):
-#         text = text.decode("utf-8")
-#
-#     # Text can also be a sequence of strings, in which case this method
-#     # will return a sequence of results for each text.
-#     result = translate_client.translate(text, target_language=target)
-#
-#     # print(u"Text: {}".format(result["input"]))
-#     # print(u"Translation: {}".format(result["translatedText"]))
-#     # print(u"Detected source language: {}".format(result["detectedSourceLanguage"]))
-#     return result["translatedText"]
+def google_translate_text(target, text):
+    """Translates text into the target language.
+    Target must be an ISO 639-1 language code.
+    See https://g.co/cloud/translate/v2/translate-reference#supported_languages
+    """
+    # return
+    import six
+    from google.cloud import translate_v2 as translate
+
+    translate_client = translate.Client()
+
+    if isinstance(text, six.binary_type):
+        text = text.decode("utf-8")
+
+    # Text can also be a sequence of strings, in which case this method
+    # will return a sequence of results for each text.
+    result = translate_client.translate(
+        text, target_language=target)
+
+    # print(u"Text: {}".format(result["input"]))
+    # print(u"Translation: {}".format(result["translatedText"]))
+    # print(u"Detected source language: {}".format(result["detectedSourceLanguage"]))
+    return result["translatedText"]
 
 def iterate_each_row(df, start_index, end_index):
     # Ensure indices are within the DataFrame's range
@@ -121,8 +122,8 @@ def iterate_each_row(df, start_index, end_index):
     # Iterate over the specified range
     for index, row in df.iloc[start_index:end_index].iterrows():
         # Ensure essential fields are non-empty strings
-        email_text = str(row['Email Text']).strip()
-        email_type = str(row['Email Type']).strip()
+        email_text = str(row['email_text']).strip()
+        email_type = str(row['email_type']).strip()
 
         if not email_text or not email_type:
             continue  # Skip rows with missing values
