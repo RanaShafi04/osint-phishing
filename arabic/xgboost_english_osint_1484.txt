@@ -1,0 +1,43 @@
+
+Model Accuracy: 0.93
+Recall: 0.96
+Precision: 0.91
+Confusion Matrix:
+[[70  7]
+ [ 3 72]]
+Model Accuracy: 0.95
+Recall: 0.95
+Precision: 0.96
+Confusion Matrix:
+[[74  3]
+ [ 4 71]]
+Model Accuracy: 0.93
+Recall: 0.92
+Precision: 0.93
+Confusion Matrix:
+[[72  5]
+ [ 6 69]]
+Model Accuracy: 0.93
+Recall: 0.95
+Precision: 0.91
+Confusion Matrix:
+[[70  7]
+ [ 4 71]]
+Model Accuracy: 0.95
+Recall: 0.97
+Precision: 0.94
+Confusion Matrix:
+[[72  5]
+ [ 2 73]]
+Model Accuracy: 0.94
+Recall: 0.96
+Precision: 0.92
+Confusion Matrix:
+[[71  6]
+ [ 3 72]]
+Model Accuracy: 0.93
+Recall: 0.92
+Precision: 0.93
+Confusion Matrix:
+[[72  5]
+ [ 6 69]]
