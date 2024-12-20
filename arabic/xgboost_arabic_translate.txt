@@ -1,19 +1,11 @@
 
-Model Accuracy: 0.91
-Recall: 0.89
-Precision: 0.93
+--- GridSearch Results ---
+Timestamp: 2024-12-20 21:56:28.179697
+Best Parameters: {'classifier__max_depth': 5, 'classifier__n_estimators': 100, 'classifier__scale_pos_weight': 3}
+Accuracy: 0.95
+Precision: 0.94
+Recall: 0.97
+F1-Score: 0.95
 Confusion Matrix:
-[[72  5]
- [ 8 67]]
-Model Accuracy: 0.89
-Recall: 0.83
-Precision: 0.95
-Confusion Matrix:
-[[74  3]
- [13 62]]
-Model Accuracy: 0.93
-Recall: 0.88
-Precision: 0.97
-Confusion Matrix:
-[[75  2]
- [ 9 66]]
+[[71  5]
+ [ 2 74]]
