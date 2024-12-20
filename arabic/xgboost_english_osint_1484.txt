@@ -1,10 +1,9 @@
- ----------------------------
-Official Result: 9.12pm 20 Dec 2024
+
 Best Parameters: {'colsample_bytree': 0.8, 'learning_rate': 0.2, 'max_depth': 3, 'min_child_weight': 1, 'n_estimators': 50, 'subsample': 0.8}
-Best Cross-Validation Accuracy: 0.94
-Test Accuracy: 0.97
-Test Precision: 0.96
-Test Recall: 0.97
+Best Cross-Validation Accuracy: 0.9431
+Test Accuracy: 0.9671
+Test Precision: 0.9610
+Test Recall: 0.9737
 Confusion Matrix:
 [[73  3]
  [ 2 74]]

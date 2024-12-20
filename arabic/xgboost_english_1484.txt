@@ -1,11 +1,12 @@
 
 --- GridSearch Results ---
-Timestamp: 2024-12-20 21:30:03.488112
+Timestamp: 2024-12-20 22:41:04.658314
 Best Parameters: {'classifier__max_depth': 3, 'classifier__n_estimators': 50, 'classifier__scale_pos_weight': 2}
-Accuracy: 0.95
-Precision: 0.93
-Recall: 0.99
-F1-Score: 0.96
+Accuracy: 0.9539
+Precision: 0.9259
+Recall: 0.9868
+F1-Score: 0.9554
 Confusion Matrix:
 [[70  6]
  [ 1 75]]
+--------------------------

@@ -1,9 +1,9 @@
 
 Best Parameters: {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'min_child_weight': 1, 'n_estimators': 100, 'subsample': 1.0}
-Best Cross-Validation Accuracy: 0.95
-Test Accuracy: 0.97
-Test Precision: 0.95
-Test Recall: 0.99
+Best Cross-Validation Accuracy: 0.9461
+Test Accuracy: 0.9671
+Test Precision: 0.9494
+Test Recall: 0.9868
 Confusion Matrix:
 [[72  4]
  [ 1 75]]
