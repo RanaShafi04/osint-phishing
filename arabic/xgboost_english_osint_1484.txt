@@ -4,6 +4,7 @@ Best Cross-Validation Accuracy: 0.9431
 Test Accuracy: 0.9671
 Test Precision: 0.9610
 Test Recall: 0.9737
+F1-score: 0.9673
 Confusion Matrix:
 [[73  3]
  [ 2 74]]
