@@ -25,11 +25,10 @@ columns = ["email_text", "ar"] + nmap_keys + theharvester_keys + ["email_type"]
 #     ]
 # }
 query = {
-    'ar': { '$exists': True}
 }
 # Prepare CSV file
 output_file = f"exported_data{datetime.now()}.csv"
-with open(output_file, mode="w", newline="", encoding="utf-8") as file:
+with open(output_file, mode="w", newline="", encoding="utf-8-sig") as file:  # Use utf-8-sig
     writer = csv.DictWriter(file, fieldnames=columns)
     writer.writeheader()
 

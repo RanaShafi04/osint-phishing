@@ -9,7 +9,7 @@ TARGET_KEY = 'nmap'
 RETRIES = 3
 TIMEOUT = 120  # Increased timeout (2 minutes) to avoid Nmap timeout issues
 NUM_THREADS = 6  # Number of threads for processing
-QUERY_LIMIT = 180  # Limit for documents to process
+QUERY_LIMIT = 100  # Limit for documents to process
 LOG_FILE = "nmap.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_nmap.log"  # Fail log file for error logs
 
@@ -83,7 +83,7 @@ if __name__ == '__main__':
             {'domains': {"$ne": []}}  # Ensure 'domains' is not an empty array
         ],
         TARGET_KEY: {'$exists': False}  # Check if 'TARGET_KEY' does not exist
-    }).sort('_id', 1).limit(QUERY_LIMIT)
+    }).sort('_id', -1).limit(QUERY_LIMIT)
 
     # Use ThreadPoolExecutor for multithreading
     with ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:

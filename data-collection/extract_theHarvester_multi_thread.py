@@ -16,7 +16,7 @@ RETRIES = 3
 DELAY_BETWEEN_RETRIES = 5  # Seconds
 TIMEOUT = 120  # Increased timeout (2 minutes) to avoid timeout issues
 NUM_THREADS = 6  # Number of threads for processing
-QUERY_LIMIT = 200  # Limit for documents to process
+QUERY_LIMIT = 100  # Limit for documents to process
 LOG_FILE = "theharvester.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_theharvester.log"  # Fail log file for error logs
 
@@ -133,7 +133,7 @@ if __name__ == '__main__':
             {'domains': {"$ne": []}}  # Ensure 'domains' is not an empty array
         ],
         TARGET_KEY: {'$exists': False}  # Check if 'TARGET_KEY' does not exist
-    }).sort('_id', 1).limit(QUERY_LIMIT)
+    }).sort('_id', -1).limit(QUERY_LIMIT)
 
     # Use ThreadPoolExecutor for multithreading
     with ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:

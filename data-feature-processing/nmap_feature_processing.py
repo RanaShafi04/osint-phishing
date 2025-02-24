@@ -8,7 +8,7 @@ from process_utilities import parse_nmap_output, merge_dictionaries
 SRC_KEY = 'nmap'
 TARGET_KEY = 'nmap_features'
 NUM_THREADS = 6  # Number of threads for processing
-QUERY_LIMIT = 5000  # Limit for documents to process
+QUERY_LIMIT = 50000  # Limit for documents to process
 LOG_FILE = "nmap_feature_processing.log"  # Log file name for success logs
 FAIL_LOG_FILE = "fail_nmap_feature_processing.log"  # Fail log file for error logs
 
